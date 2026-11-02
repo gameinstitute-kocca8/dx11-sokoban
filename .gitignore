@@ -1,0 +1,7 @@
+build/
+out/
+.vs/
+screens/
+expected-screens/
+CMakeUserPresets.json
+*.user

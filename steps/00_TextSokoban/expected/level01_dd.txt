@@ -1,0 +1,8 @@
+d Pushed
+d Pushed
+#######
+#     #
+#   @*#
+#     #
+#######
+moves=2 cleared=yes

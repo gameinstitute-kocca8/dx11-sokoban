@@ -1,0 +1,73 @@
+# Course.cmake - 강사용/학생용 레포가 함께 쓰는 빌드 설정
+#
+#   course_setup(<common 폴더>)        컴파일 옵션, DirectXTK, StepCommon 라이브러리 준비
+#   course_add_steps(<glob 패턴>)      패턴에 맞는 단계 폴더를 모두 add_subdirectory
+#   add_dx11_step(<이름>)              단계 폴더의 CMakeLists.txt에서 호출. main.cpp + shaders/ 로 실행 파일 생성
+include_guard(GLOBAL)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+if(MSVC)
+    # /utf-8: 소스의 한글 주석과 문자열을 UTF-8로 읽는다. 빠지면 한글 로그가 깨진다.
+    add_compile_options(/utf-8 /W3 /permissive-)
+endif()
+
+macro(course_setup common_dir)
+    enable_testing()
+    if(WIN32)
+        include(FetchContent)
+        # DirectXTK: SimpleMath, ScreenGrab, (이후 단계) Keyboard, Mouse, WICTextureLoader, SpriteFont, PrimitiveBatch
+        set(BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+        set(BUILD_XAUDIO_WIN8 OFF CACHE BOOL "" FORCE)
+        set(BUILD_XAUDIO_WIN10 OFF CACHE BOOL "" FORCE)
+        FetchContent_Declare(DirectXTK
+            GIT_REPOSITORY https://github.com/microsoft/DirectXTK.git
+            GIT_TAG oct2025
+            GIT_SHALLOW TRUE)
+        FetchContent_MakeAvailable(DirectXTK)
+
+        add_library(StepCommon STATIC ${common_dir}/StepApp.cpp ${common_dir}/StepApp.h)
+        target_include_directories(StepCommon PUBLIC ${common_dir})
+        target_compile_definitions(StepCommon PUBLIC UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN)
+        target_link_libraries(StepCommon PUBLIC DirectXTK d3d11 dxgi d3dcompiler)
+    endif()
+endmacro()
+
+function(add_dx11_step name)
+    set(target ${name})
+    add_executable(${target} WIN32 main.cpp)
+    target_link_libraries(${target} PRIVATE StepCommon)
+
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
+        file(GLOB shaders CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.hlsl)
+        target_sources(${target} PRIVATE ${shaders})
+        # 셰이더는 실행 중에 D3DCompileFromFile로 컴파일한다. Visual Studio가 빌드 때 따로 컴파일하지 않게 한다.
+        set_source_files_properties(${shaders} PROPERTIES VS_TOOL_OVERRIDE "None")
+        add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    ${CMAKE_CURRENT_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:${target}>/shaders)
+    endif()
+    set_target_properties(${target} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>)
+endfunction()
+
+# pattern 예: "solutions/*" 또는 "steps/*/starter"
+# Windows가 아니면 콘솔 단계(00_)만 추가한다.
+function(course_add_steps pattern)
+    file(GLOB step_dirs LIST_DIRECTORIES true ${CMAKE_CURRENT_SOURCE_DIR}/${pattern})
+    list(SORT step_dirs)
+    foreach(dir IN LISTS step_dirs)
+        if(NOT EXISTS ${dir}/CMakeLists.txt)
+            continue()
+        endif()
+        file(RELATIVE_PATH rel ${CMAKE_CURRENT_SOURCE_DIR} ${dir})
+        string(REGEX MATCH "(^|/)([0-9][0-9])_" step_match ${rel})
+        set(step_number ${CMAKE_MATCH_2})
+        if(NOT WIN32 AND NOT step_number STREQUAL "00")
+            continue()
+        endif()
+        message(STATUS "단계 추가: ${rel}")
+        add_subdirectory(${dir} ${CMAKE_CURRENT_BINARY_DIR}/${rel})
+    endforeach()
+endfunction()

@@ -35,10 +35,11 @@ DirectX 11로 작은 3D 소코반을 만들면서, 게임에 **실제로 필요�
 
 ## 빠른 시작
 
-1. [docs/SETUP.md](docs/SETUP.md)를 따라 Visual Studio와 CMake 환경을 준비합니다.
-2. Visual Studio에서 **파일 → 열기 → 폴더**로 이 레포를 엽니다.
-3. 시작 항목으로 `TextSokobanTests.exe`를 골라 실행합니다. 처음에는 테스트가 실패하는 것이 정상입니다.
-4. [steps/00_TextSokoban/TASK.md](steps/00_TextSokoban/TASK.md)부터 시작합니다.
+1. **이 레포를 fork하지 마세요.** [docs/WORKFLOW.md의 "0. 내 레포 만들기"](docs/WORKFLOW.md)대로 템플릿에서 내 Private 레포를 만들고 clone합니다.
+2. [docs/SETUP.md](docs/SETUP.md)를 따라 Visual Studio와 CMake 환경을 준비합니다.
+3. Visual Studio에서 **파일 → 열기 → 폴더**로 내 레포 폴더를 엽니다.
+4. 시작 항목으로 `TextSokobanTests.exe`를 골라 실행합니다. 처음에는 테스트가 실패하는 것이 정상입니다. GitHub Actions의 규칙 테스트가 빨간색인 것도 같은 이유입니다.
+5. [steps/00_TextSokoban/TASK.md](steps/00_TextSokoban/TASK.md)부터 시작합니다.
 
 ## 꼭 읽을 문서
 

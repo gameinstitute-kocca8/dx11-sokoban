@@ -1,6 +1,6 @@
 // Sokoban.h
 // 소코반 규칙의 전부. 렌더링, 입력 장치, 파일 시스템을 전혀 모른다.
-// 이 파일은 00단계에서 만들고, 07단계 이후 3D 게임에서 그대로 재사용한다.
+// 이 파일은 00단계에서 만들고, 08단계 이후 3D 게임에서 그대로 재사용한다.
 #pragma once
 
 #include <cstdint>
@@ -32,7 +32,7 @@ inline bool operator==(Int2 a, Int2 b) { return a.x == b.x && a.y == b.y; }
 inline Int2 operator+(Int2 a, Int2 b) { return {a.x + b.x, a.y + b.y}; }
 
 // 좌표계: x는 오른쪽(+), y는 아래쪽(+). 텍스트 맵의 첫 줄이 y = 0.
-// 3D로 옮길 때의 대응은 07단계 TASK.md에서 정한다.
+// 3D로 옮길 때의 대응은 08단계 TASK.md에서 정한다.
 Int2 DirToOffset(Dir dir);
 
 // 게임 상태 전체. 화면에 보이는 모든 것은 이 값에서 계산된다.

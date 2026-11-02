@@ -84,4 +84,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Windows 콘솔/CI의 기본 인코딩(cp1252 등)에서 한글 출력이 UnicodeEncodeError를 내지 않도록
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

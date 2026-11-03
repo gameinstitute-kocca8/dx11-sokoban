@@ -1,0 +1,4 @@
+# CI 캡처 목록: <이름> [추가 인자]
+start
+push  --moves d
+clear --moves dd

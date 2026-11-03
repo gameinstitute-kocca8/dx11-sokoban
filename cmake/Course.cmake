@@ -3,6 +3,12 @@
 #   course_setup(<common 폴더>)        컴파일 옵션, DirectXTK, StepCommon 라이브러리 준비
 #   course_add_steps(<glob 패턴>)      패턴에 맞는 단계 폴더를 모두 add_subdirectory
 #   add_dx11_step(<이름>)              단계 폴더의 CMakeLists.txt에서 호출. 폴더의 *.cpp/*.h + shaders/ 로 실행 파일 생성
+#
+#   07단계부터 (레이어 분리)
+#   add_layer_library(<타깃> <의존 타깃...>)   현재 폴더의 *.cpp/*.h로 정적 라이브러리. include 기준은 단계 폴더
+#                                              → 다른 레이어에서 #include "Render/Renderer.h" 처럼 쓴다
+#   add_layer_app(<타깃> <의존 타깃...>)       현재 폴더의 *.cpp/*.h로 실행 파일
+#   copy_to_output(<타깃> <원본 폴더> <대상 이름>)  빌드 후 원본 폴더를 실행 파일 옆으로 복사 (셰이더, 레벨, 폰트)
 include_guard(GLOBAL)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -72,4 +78,33 @@ function(course_add_steps pattern)
         message(STATUS "단계 추가: ${rel}")
         add_subdirectory(${dir} ${CMAKE_CURRENT_BINARY_DIR}/${rel})
     endforeach()
+endfunction()
+
+# ---------------------------------------------------------------------------
+# 07단계부터: Render.lib / Engine.lib / 실행 파일
+# ---------------------------------------------------------------------------
+function(add_layer_library target)
+    file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+    add_library(${target} STATIC ${sources})
+    # 단계 폴더를 include 기준으로 삼아 "Render/Renderer.h", "Engine/Camera.h"처럼 레이어 이름이 드러나게 한다
+    get_filename_component(step_root ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+    target_include_directories(${target} PUBLIC ${step_root})
+    target_link_libraries(${target} PUBLIC ${ARGN})
+endfunction()
+
+function(add_layer_app target)
+    file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+    add_executable(${target} WIN32 ${sources})
+    get_filename_component(step_root ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+    target_include_directories(${target} PRIVATE ${step_root})
+    target_link_libraries(${target} PRIVATE ${ARGN})
+    set_target_properties(${target} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${target}>)
+endfunction()
+
+function(copy_to_output target source_dir dest_name)
+    file(GLOB files CONFIGURE_DEPENDS ${source_dir}/*)
+    set_source_files_properties(${files} PROPERTIES VS_TOOL_OVERRIDE "None" HEADER_FILE_ONLY TRUE)
+    target_sources(${target} PRIVATE ${files})
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${source_dir} $<TARGET_FILE_DIR:${target}>/${dest_name})
 endfunction()

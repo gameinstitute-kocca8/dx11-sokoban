@@ -8,6 +8,8 @@
 //   --capture <파일.png>  WARP(소프트웨어 렌더러)로 한 프레임 그리고 PNG로 저장한 뒤 종료
 //   --time <초>           캡처할 때의 고정 시간 (기본 1.0). 회전 같은 애니메이션을 재현 가능하게 한다.
 //   --warp                창 모드에서도 GPU 대신 WARP 사용
+//   --level <파일>        (08단계~) 불러올 레벨 파일. 실행 파일 기준 경로 (예: levels/level02.txt)
+//   --moves <wasd...>     (10단계~) 시작하자마자 이 이동을 순서대로 적용. 캡처로 '밀기 후' 화면을 만들 때 쓴다
 #pragma once
 
 #ifndef NOMINMAX
@@ -32,6 +34,8 @@ struct Options {
     std::wstring capturePath;
     float captureTime = 1.0f;
     bool warp = false;
+    std::wstring level;  // 비어 있으면 게임의 기본 레벨
+    std::string moves;   // 지도 기준 방향 w(위) a(왼쪽) s(아래) d(오른쪽)
 };
 
 class StepApp {

@@ -42,17 +42,17 @@ NEED: 09단계에서 [구체적인 실패나 불편] 때문에 추가
 Game  →  Engine  →  Render
 ```
 
-| 레이어 | 들어가는 것 | 들어가면 안 되는 것 |
+| 레이어 | 실제로 들어간 것 (12단계 기준) | 들어가면 안 되는 것 |
 |---|---|---|
-| `Render.lib` | Device, SwapChain, Shader, Mesh, Texture, Material, Font, DebugDraw | Engine/Game 헤더, 게임 단어(Sokoban, Crate, Goal, Player) |
-| `Engine.lib` | Application(루프), Time, Input, Camera | Game 헤더, 게임 단어 |
-| `Sokoban.exe` | 레벨, 규칙, 플레이어 조작, UI | `d3d11.h`, `dxgi.h`, 텍스처 로더 |
+| `Render.lib` | `Renderer` (Device, SwapChain, 셰이더, 큐브 메시, 화면 글자), `shaders/`, `fonts/` | Engine/Game 헤더, 게임 단어(Sokoban, Crate, Goal, Player) |
+| `Engine.lib` | `Application`(창, 루프, 프레임 순서), `Camera`, `Input` | Game 헤더, 게임 단어 |
+| `Sokoban.exe` (`Game/`) | 규칙(`Sokoban`, `SokobanGame`), 그리기(`GridView`), 조작(`PlayerController`), `main.cpp`, `levels/` | `d3d11.h`, `dxgi.h`, 텍스처 로더 |
 
 **Engine에 무엇을 넣을지는 다음 기준으로 판단합니다.**
 
 > `CubeViewer.exe`와 `Sokoban.exe` **둘 다** 쓰는 것만 Engine에 넣는다.
 
-- Camera, Input, Time은 둘 다 쓰므로 Engine에 넣습니다.
+- Camera, Input, Application은 둘 다 쓰므로 Engine에 넣습니다. 시간은 `OnFrame(deltaSeconds, totalSeconds)`로 충분해서 Time 클래스는 만들지 않았습니다.
 - 범용 GameObject는 둘 다 쓰지 않으므로 넣지 않습니다. 소코반은 그리드 상태를 매 프레임 그대로 그리면 됩니다.
 
 의존 방향은 `tools/check_layers.py`가 CI에서 자동으로 검사합니다.

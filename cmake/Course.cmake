@@ -2,7 +2,7 @@
 #
 #   course_setup(<common 폴더>)        컴파일 옵션, DirectXTK, StepCommon 라이브러리 준비
 #   course_add_steps(<glob 패턴>)      패턴에 맞는 단계 폴더를 모두 add_subdirectory
-#   add_dx11_step(<이름>)              단계 폴더의 CMakeLists.txt에서 호출. main.cpp + shaders/ 로 실행 파일 생성
+#   add_dx11_step(<이름>)              단계 폴더의 CMakeLists.txt에서 호출. 폴더의 *.cpp/*.h + shaders/ 로 실행 파일 생성
 include_guard(GLOBAL)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -37,7 +37,9 @@ endmacro()
 
 function(add_dx11_step name)
     set(target ${name})
-    add_executable(${target} WIN32 main.cpp)
+    # 단계 폴더의 모든 .cpp/.h (main.cpp, 05단계부터 Camera.cpp 등)
+    file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+    add_executable(${target} WIN32 ${sources})
     target_link_libraries(${target} PRIVATE StepCommon)
 
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/shaders)

@@ -24,7 +24,7 @@ DirectX 11로 작은 3D 소코반을 만들면서, 게임에 **실제로 필요�
 | [02_Triangle](steps/02_Triangle/TASK.md) | Vertex Buffer, Input Layout, HLSL, Draw | 색 삼각형 | ✅ |
 | [03_IndexDepth](steps/03_IndexDepth/TASK.md) | Index Buffer, Depth Buffer | 겹친 사각형의 앞뒤가 올바름 | ✅ |
 | [04_Transform](steps/04_Transform/TASK.md) | World/View/Projection, Constant Buffer | 회전하는 큐브와 바닥 | ✅ |
-| 05_Camera | Camera 클래스 (View, Projection) | 궤도를 도는 카메라 | 준비 중 |
+| [05_Camera](steps/05_Camera/TASK.md) | Camera 클래스 (View, Projection), 궤도 | 3×3 큐브 주위를 도는 카메라 | ✅ |
 | 06_Lighting | 법선, 방향광 (Lambert) | 면마다 밝기가 다른 큐브 | 준비 중 |
 | 07_SplitLibraries | `Render.lib` / `Engine.lib` 분리 | CubeViewer.exe가 따로 빌드됨 | 준비 중 |
 | 08_GridMap | 00의 레벨 → 3D 맵 | 레벨 파일이 벽·바닥·목표로 보임 | 준비 중 |

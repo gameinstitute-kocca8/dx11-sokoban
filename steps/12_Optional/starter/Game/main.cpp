@@ -11,6 +11,7 @@
 #include "Game/PlayerController.h"
 #include "Game/SokobanGame.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -91,8 +92,10 @@ private:
         if (game_.State() == game::GameState::Cleared) cameraYaw_ += deltaSeconds * 0.5f;
 
         camera_.SetLens(DirectX::XM_PI / 3.0f, GetRenderer().AspectRatio(), 0.1f, 100.0f);
-        camera_.Orbit(game::CellToWorld(game_.GetLevel().player), 8.0f, cameraYaw_,
-                      DirectX::XMConvertToRadians(50.0f));
+        // 맵 중심 카메라 (09단계): 레벨 한가운데를 중심으로 마우스 yaw만큼 돌린다
+        const sokoban::Level& level = game_.GetLevel();
+        const float size = static_cast<float>(std::max(level.width, level.height));
+        camera_.Orbit(game::LevelCenter(level), size * 0.9f + 4.0f, cameraYaw_, DirectX::XMConvertToRadians(55.0f));
     }
 
     // 그림자를 깔아 밝은 바닥 위에서도 읽히게 한다
@@ -116,8 +119,8 @@ private:
         if (game_.State() == game::GameState::Cleared) {
             const std::string title = "CLEAR!";
             const std::string detail = "Moves: " + std::to_string(game_.Moves()) + "   N: Next level";
-            Text(renderer, title, CenterX(title, 2.2f), 250.0f, Vector4(1.0f, 0.85f, 0.2f, 1.0f), 2.2f);
-            Text(renderer, detail, CenterX(detail, 1.0f), 340.0f, white, 1.0f);
+            Text(renderer, title, CenterX(title, 2.2f), 90.0f, Vector4(1.0f, 0.85f, 0.2f, 1.0f), 2.2f);
+            Text(renderer, detail, CenterX(detail, 1.0f), 180.0f, white, 1.0f);
         }
     }
 };

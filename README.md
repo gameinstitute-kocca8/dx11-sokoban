@@ -28,7 +28,7 @@ DirectX 11로 작은 3D 소코반을 만들면서, 게임에 **실제로 필요�
 | [06_Lighting](steps/06_Lighting/TASK.md) | 법선, 방향광 (Lambert) | 면마다 밝기가 다른 큐브, 소코반 색 | ✅ |
 | [07_SplitLibraries](steps/07_SplitLibraries/TASK.md) | `Render.lib` / `Engine.lib` 분리 | CubeViewer.exe가 06과 같은 화면 | ✅ |
 | [08_GridMap](steps/08_GridMap/TASK.md) | 00의 레벨 → 3D 맵, 좌표 약속 | 레벨 파일이 벽·바닥·목표·상자로 보임 | ✅ |
-| [09_PlayerInput](steps/09_PlayerInput/TASK.md) | 키 입력(눌린 순간), 카메라 기준 방향, 3인칭 카메라 | 플레이어가 한 칸씩 이동, 상자 밀기 | ✅ |
+| [09_PlayerInput](steps/09_PlayerInput/TASK.md) | 키 입력(눌린 순간), 카메라 기준 방향, 마우스로 돌리는 카메라 | 플레이어가 한 칸씩 이동, 상자 밀기 | ✅ |
 | [10_PushAndClear](steps/10_PushAndClear/TASK.md) | 한 판의 상태(이동 횟수, Clear), 검증용 이동 스크립트 | 시작 / 밀기 / Clear 세 화면 | ✅ |
 | [11_UIRestart](steps/11_UIRestart/TASK.md) | 화면 글자(SpriteFont), 재시작, 레벨 바꾸기 | HUD와 CLEAR! 글자 | ✅ |
 | [12_Optional](steps/12_Optional/TASK.md) | Undo(예시) / 부드러운 이동 / 텍스처 / 레벨 추가 중 택1 | 선택 기능 동작 | ✅ |

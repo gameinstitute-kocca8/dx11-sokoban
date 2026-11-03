@@ -9,6 +9,7 @@
 #include "Game/PlayerController.h"
 #include "Game/SokobanGame.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -80,8 +81,10 @@ private:
         if (game_.State() == game::GameState::Cleared) cameraYaw_ += deltaSeconds * 0.5f;
 
         camera_.SetLens(DirectX::XM_PI / 3.0f, GetRenderer().AspectRatio(), 0.1f, 100.0f);
-        camera_.Orbit(game::CellToWorld(game_.GetLevel().player), 8.0f, cameraYaw_,
-                      DirectX::XMConvertToRadians(50.0f));
+        // 맵 중심 카메라 (09단계): 레벨 한가운데를 중심으로 마우스 yaw만큼 돌린다
+        const sokoban::Level& level = game_.GetLevel();
+        const float size = static_cast<float>(std::max(level.width, level.height));
+        camera_.Orbit(game::LevelCenter(level), size * 0.9f + 4.0f, cameraYaw_, DirectX::XMConvertToRadians(55.0f));
     }
 
     // 그림자를 깔아 밝은 바닥 위에서도 읽히게 한다
@@ -97,7 +100,7 @@ private:
 
         // TODO(11): HUD를 그린다. 이 함수는 상태를 '읽기만' 한다 (Moves, State, levelIndex_).
         //   힌트: 왼쪽 위 (20, 16): "Level 1/3   Moves: 0"   아래 (20, 680): 조작 안내, 크기 0.7
-        //   힌트: Clear면 가운데 "CLEAR!" (크기 2.2, y = 250)와 "Moves: N   N: Next level" (y = 340)
+        //   힌트: Clear면 가운데 "CLEAR!" (크기 2.2, y = 90)와 "Moves: N   N: Next level" (y = 180). 맵 위쪽 빈 곳이라 판을 가리지 않는다
     }
 };
 

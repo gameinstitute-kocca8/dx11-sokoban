@@ -71,7 +71,31 @@ git commit -m "03 SPEC"
 
 - 직접 실행해서 `expected/`와 비교합니다. 같은 방법으로 찍으려면 `--capture` 옵션을 씁니다 ([SETUP.md](SETUP.md)).
 - 예측 질문을 실제로 실험해 봅니다. 예: 깊이 버퍼를 끄면 어떻게 되는가?
-- push할 때마다 CI가 00 규칙 테스트와 레이어 검사를 돌립니다 (Linux, 1분 안팎).
+- push할 때마다 CI가 00·13 규칙 테스트와 레이어 검사를 돌립니다 (Linux, 1분 안팎).
+
+### 자기 점검 보고서
+
+정답이 공개되기 전에 내 과제가 어디까지 됐는지 단계별 표로 볼 수 있습니다.
+
+- **CI에서:** GitHub 내 레포 → **Actions** → 실행 하나를 열고 → **Summary**를 아래로 내리면 "자기 점검 보고서"가 있습니다.
+  - push마다(`rules`): 테스트 통과 수, 내 시나리오 개수, 출력 비교, SPEC/LOG/REVIEW 기록, SPEC 커밋 순서
+  - 제출 태그(`windows`): 위 내용에 **화면 비교**가 더해집니다. 내 캡처가 `expected/`의 PNG와 픽셀 단위로 같은지 봅니다.
+- **내 PC에서:** 빌드한 뒤 레포 폴더에서 실행합니다.
+
+```powershell
+python tools/self_check.py --build out/build/x64-Debug
+```
+
+화면까지 비교하려면 먼저 캡처하고 `--screens`를 붙입니다.
+
+```powershell
+pwsh tools/capture_steps.ps1 -BuildDir out/build/x64-Debug -OutDir screens
+python tools/self_check.py --build out/build/x64-Debug --screens screens
+```
+
+표의 기호: ✅ 확인됨 · ⚠️ 확인 필요 · ❌ 기대와 다름 · ⬜ 아직 안 함 · — 여기서는 확인할 수 없음
+
+**전부 ✅여도 과제가 끝난 것은 아닙니다.** 동작, 설명, 데모처럼 CI가 볼 수 없는 것은 `CHECKLIST.md`로 확인합니다. 반대로 00을 하지 않고 13만 했다면 CI 작업 자체는 빨간색이지만, 보고서의 13 줄이 ✅이면 13은 된 것입니다.
 
 ## 6. 기록
 

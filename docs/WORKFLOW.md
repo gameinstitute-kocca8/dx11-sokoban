@@ -2,19 +2,21 @@
 
 ## 0. 내 레포 만들기 (처음 한 번)
 
-수업 레포는 수업용 GitHub Organization 안에 있는 **템플릿**입니다. fork하지 않습니다.
+수업 레포는 GitHub Organization `gameinstitute-kocca8` 안에 있는 **템플릿**입니다: <https://github.com/gameinstitute-kocca8/dx11-sokoban>
 
-1. 수업 레포 페이지에서 **Use this template → Create a new repository**를 누릅니다.
+**fork하지 않습니다.** 먼저 강사에게 받은 Organization 초대를 수락해야 수업 레포가 보입니다 (GitHub 알림 또는 이메일).
+
+1. [수업 레포 페이지](https://github.com/gameinstitute-kocca8/dx11-sokoban)에서 초록색 **Use this template → Create a new repository**를 누릅니다.
 2. 다음과 같이 설정합니다.
-   - **Owner**: 수업 Organization (내 개인 계정이 아님)
-   - **Repository name**: `dx11-sokoban-내GitHub아이디`
+   - **Owner**: `gameinstitute-kocca8` (내 개인 계정이 아님)
+   - **Repository name**: `dx11-sokoban-내GitHub아이디` (예: GitHub 아이디가 `kimdev`이면 `dx11-sokoban-kimdev`)
    - **Private**
-3. 만든 레포를 PC에 clone하고, **작업을 시작하기 전에** 원본 레포를 `upstream`으로 연결합니다. 원본 주소는 내 레포 페이지의 이름 아래 **"generated from ..."**에 적혀 있습니다.
+3. 만든 레포를 PC에 clone하고, **작업을 시작하기 전에** 원본 수업 레포를 `upstream`으로 연결합니다. 아래 명령의 `내GitHub아이디`만 바꿔서 실행합니다.
 
 ```powershell
-git clone https://github.com/<수업 Organization>/dx11-sokoban-내GitHub아이디.git
+git clone https://github.com/gameinstitute-kocca8/dx11-sokoban-내GitHub아이디.git
 cd dx11-sokoban-내GitHub아이디
-git remote add upstream https://github.com/<수업 Organization>/dx11-sokoban.git
+git remote add upstream https://github.com/gameinstitute-kocca8/dx11-sokoban.git
 git pull --no-rebase upstream main --allow-unrelated-histories --no-edit
 git push
 ```

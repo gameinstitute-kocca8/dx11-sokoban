@@ -61,7 +61,8 @@ function(add_dx11_step name)
 endfunction()
 
 # pattern 예: "solutions/*" 또는 "steps/*/starter"
-# Windows가 아니면 콘솔 단계(00_)만 추가한다.
+# Windows가 아니면 콘솔 단계(COURSE_CONSOLE_STEPS)만 추가한다.
+set(COURSE_CONSOLE_STEPS 00 13)
 function(course_add_steps pattern)
     file(GLOB step_dirs LIST_DIRECTORIES true ${CMAKE_CURRENT_SOURCE_DIR}/${pattern})
     list(SORT step_dirs)
@@ -72,7 +73,8 @@ function(course_add_steps pattern)
         file(RELATIVE_PATH rel ${CMAKE_CURRENT_SOURCE_DIR} ${dir})
         string(REGEX MATCH "(^|/)([0-9][0-9])_" step_match ${rel})
         set(step_number ${CMAKE_MATCH_2})
-        if(NOT WIN32 AND NOT step_number STREQUAL "00")
+        # Windows가 아니면 콘솔 단계만 (00 소코반 규칙, 13 A*)
+        if(NOT WIN32 AND NOT step_number IN_LIST COURSE_CONSOLE_STEPS)
             continue()
         endif()
         message(STATUS "단계 추가: ${rel}")

@@ -35,6 +35,10 @@ Options ParseOptions() {
             options.warp = true;
         } else if (arg == L"--level" && i + 1 < argc) {
             options.level = argv[++i];
+        } else if (arg == L"--target" && i + 1 < argc) {
+            for (const wchar_t* c = argv[++i]; *c; ++c) {
+                options.target += static_cast<char>(*c);
+            }
         } else if (arg == L"--moves" && i + 1 < argc) {
             for (const wchar_t* c = argv[++i]; *c; ++c) {
                 options.moves += static_cast<char>(*c);  // w a s d 만 쓰므로 ASCII로 충분

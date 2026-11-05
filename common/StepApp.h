@@ -10,6 +10,7 @@
 //   --warp                창 모드에서도 GPU 대신 WARP 사용
 //   --level <파일>        (08단계~) 불러올 레벨 파일. 실행 파일 기준 경로 (예: levels/level02.txt)
 //   --moves <wasd...>     (10단계~) 시작하자마자 이 이동을 순서대로 적용. 캡처로 '밀기 후' 화면을 만들 때 쓴다
+//   --target <x,y>        (14단계) 시작하자마자 이 칸으로 가는 길을 찾는다. 마우스 클릭 대신 캡처에 쓴다
 #pragma once
 
 #ifndef NOMINMAX
@@ -36,6 +37,7 @@ struct Options {
     bool warp = false;
     std::wstring level;  // 비어 있으면 게임의 기본 레벨
     std::string moves;   // 지도 기준 방향 w(위) a(왼쪽) s(아래) d(오른쪽)
+    std::string target;  // "x,y" (14단계)
 };
 
 class StepApp {

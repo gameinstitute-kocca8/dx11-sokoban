@@ -32,10 +32,12 @@ DirectX 11로 작은 3D 소코반을 만들면서, 게임에 **실제로 필요�
 | [10_PushAndClear](steps/10_PushAndClear/TASK.md) | 한 판의 상태(이동 횟수, Clear), 검증용 이동 스크립트 | 시작 / 밀기 / Clear 세 화면 | ✅ |
 | [11_UIRestart](steps/11_UIRestart/TASK.md) | 화면 글자(SpriteFont), 재시작, 레벨 바꾸기 | HUD와 CLEAR! 글자 | ✅ |
 | [12_Optional](steps/12_Optional/TASK.md) | Undo(예시) / 부드러운 이동 / 텍스처 / 레벨 추가 중 택1 | 선택 기능 동작 | ✅ |
+| [13_AStarConsole](steps/13_AStarConsole/TASK.md) | A* 길찾기 (콘솔): g, h, f, open/closed, 맨해튼 거리 | 경로와 탐색한 칸 + 테스트 전부 PASS | ✅ |
+| [14_AStarGrid](steps/14_AStarGrid/TASK.md) | A*를 게임에 연결: 클릭한 칸으로 자동 이동, 피킹 | 3D 맵 위의 경로와 탐색한 칸 | ✅ |
 
 ## 빠른 시작
 
-1. **이 레포를 fork하지 마세요.** [docs/WORKFLOW.md의 "0. 내 레포 만들기"](docs/WORKFLOW.md)대로 템플릿에서 내 Private 레포를 만들고 clone합니다.
+1. **이 레포를 fork하지 마세요.** [docs/WORKFLOW.md의 "0. 내 레포 만들기"](docs/WORKFLOW.md)대로 [수업 레포](https://github.com/gameinstitute-kocca8/dx11-sokoban)의 **Use this template**으로 `gameinstitute-kocca8` 안에 내 Private 레포를 만들고 clone합니다.
 2. [docs/SETUP.md](docs/SETUP.md)를 따라 Visual Studio와 CMake 환경을 준비합니다.
 3. Visual Studio에서 **파일 → 열기 → 폴더**로 내 레포 폴더를 엽니다.
 4. 시작 항목으로 `TextSokobanTests.exe`를 골라 실행합니다. 처음에는 테스트가 실패하는 것이 정상입니다. GitHub Actions의 규칙 테스트가 빨간색인 것도 같은 이유입니다.

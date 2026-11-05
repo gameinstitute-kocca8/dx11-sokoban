@@ -20,6 +20,7 @@
 |---|---|
 | `starter/AStar.cpp` | `TODO(13)` 세 곳: `Heuristic`, `ReconstructPath`, `FindPath` 본체 |
 | `starter/tests.cpp` | 맨 아래 `MY SCENARIOS`에 직접 만든 시나리오 **2개 이상** |
+| `REVIEW.md` (새로 만듦) | 내 구현이 끝난 뒤 **AI 검증 과제** (아래) |
 
 열린 목록의 자료구조(`OpenEntry`, `WorseThan`, `std::priority_queue`), 맵 읽기/쓰기는 제공됩니다.
 
@@ -33,9 +34,42 @@
 
 ## 실행
 
+> Visual Studio 위쪽 도구 모음의 **시작 항목** 목록에서 이 단계는 `13_`으로 시작하지 않습니다. **`AStarTests.exe`**와 **`AStarConsole.exe`**를 찾으세요 (00단계의 `TextSokobanTests.exe`와 같은 방식). 둘 다 보이지 않으면 **프로젝트 → CMake 캐시 삭제 및 다시 구성**을 누릅니다.
+>
+> `AStarConsole.exe`를 F5로 그냥 실행하면 `maps/maze.txt`를 경로만 보여 줍니다. `--expanded`처럼 인자를 붙이려면 실행 파일 폴더(예: `out\build\x64-Debug\steps\13_AStarConsole\starter\`)에서 PowerShell로 실행합니다.
+
 - `AStarTests.exe`: 시나리오 테스트. 기대 결과는 `expected/tests.txt`
 - `AStarConsole.exe maps/maze.txt --expanded`: 경로(`*`)와 탐색한 칸(`o`) 보기. 기대 결과는 `expected/maze_expanded.txt`
 - 다른 맵: `maps/open.txt`, `maps/wall.txt`, `maps/nopath.txt`
+
+## AI 검증 과제 (내 구현이 테스트를 통과한 뒤에)
+
+`starter/ai_review/AStar_ai.cpp`는 누군가 AI에게 "A\* 짜 줘"라고 해서 받은 코드라고 가정합니다. 컴파일되고 대부분 그럴듯하게 동작하지만, **버그가 3개** 숨어 있습니다. 실무에서 AI를 쓸 때 가장 중요한 능력은 코드를 받는 것이 아니라 **받은 코드를 의심하고 증거로 확인하는 것**입니다.
+
+| 실행 파일 | 내용 |
+|---|---|
+| `AStarReviewTests.exe` | 같은 `tests.cpp`(내 시나리오 포함)를 AI 코드로 실행 |
+| `AStarReviewConsole.exe` | 같은 콘솔을 AI 코드로 실행. 사용법은 `AStarConsole.exe`와 같음 |
+
+할 일:
+
+1. 두 실행 파일을 돌려 내 구현(`AStarTests.exe`, `AStarConsole.exe`)과 **결과를 비교**합니다. 길이만이 아니라 탐색한 칸 수도 봅니다 (`expected/tests.txt`).
+2. 버그마다 **증거**를 찾습니다. 재현하는 맵(필요하면 `MY SCENARIOS`에 추가), 실행 결과, 원인이 되는 코드 줄.
+3. `steps/13_AStarConsole/REVIEW.md`에 버그마다 다음을 적습니다.
+
+```text
+버그 N:
+- 증상 (어떤 맵에서 무엇이 기대와 다른가):
+- 원인 (코드 줄과 이유):
+- 증거 (테스트 출력 또는 콘솔 출력):
+- 어떻게 찾았나 (AI에게 물었다면 질문 원문 한 줄):
+```
+
+규칙:
+
+- `AStar_ai.cpp`를 고쳐 보며 확인해도 되지만, **내 `AStar.cpp`에 붙여 넣지 않습니다.**
+- 제공된 테스트가 모두 PASS여도 버그가 남아 있을 수 있습니다. **테스트가 무엇을 검사하지 않는지**를 생각해 보세요.
+- 이 과제에서도 AI를 써도 됩니다. 단, "버그 찾아 줘"가 아니라 내가 본 증상과 가설을 담아 묻습니다.
 
 ## 예측 질문 (SPEC.md에 실행 전 답을 적는다)
 

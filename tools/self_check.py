@@ -122,6 +122,8 @@ def find_exe(build: Path | None, name: str, config: str | None) -> Path | None:
 
 
 def run(exe: Path, *args: str) -> str:
+    # 절대 경로로 실행한다. cwd를 바꾸면 Linux는 상대 경로를 새 cwd 기준으로 찾아서 실행 파일을 못 찾는다 (Windows는 찾음)
+    exe = exe.resolve()
     try:
         proc = subprocess.run([str(exe), *args], cwd=exe.parent, capture_output=True, timeout=60)
     except (OSError, subprocess.TimeoutExpired) as e:
